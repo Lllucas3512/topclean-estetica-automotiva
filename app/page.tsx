@@ -40,9 +40,47 @@ export default function Home(){
  useEffect(()=>{const f=()=>setTop(window.scrollY>700);window.addEventListener("scroll",f,{passive:true});return()=>window.removeEventListener("scroll",f)},[]);
  const msg=(name:string)=>`Olá! Vim pelo site da TopClean e tenho interesse em ${name}. Gostaria de mais informações e de agendar um horário.`;
  return <>
-  <header className="site-header"><a className="brand" href="#inicio" aria-label="TopClean — início"><img src="/logo-topclean.png" alt="TopClean Auto"/></a><button className="menu-toggle" onClick={()=>setMenu(!menu)} aria-expanded={menu} aria-controls="main-nav" aria-label="Abrir menu"><span/><span/></button><nav id="main-nav" className={menu?"nav open":"nav"} aria-label="Navegação principal">{[["Início","inicio"],["Serviços","servicos"],["Resultados","resultados"],["Por que TopClean","diferenciais"],["Como funciona","processo"],["FAQ","faq"]].map(([l,id])=><a key={id} href={`#${id}`} onClick={()=>setMenu(false)}>{l}</a>)}<a className="button button-small" href={wa()} target="_blank" rel="noreferrer">Agendar <Arrow/></a></nav></header>
+  <header className="site-header">
+   <div className="header-inner container">
+    <a className="brand" href="#inicio" aria-label="TopClean — início"><img src="/logo-topclean.png" alt="TopClean Auto"/></a>
+    <button className="menu-toggle" onClick={()=>setMenu(!menu)} aria-expanded={menu} aria-controls="main-nav" aria-label="Abrir menu"><span/><span/></button>
+    <nav id="main-nav" className={menu?"nav open":"nav"} aria-label="Navegação principal">{[["Início","inicio"],["Serviços","servicos"],["Resultados","resultados"],["Por que TopClean","diferenciais"],["Como funciona","processo"],["FAQ","faq"]].map(([l,id])=><a key={id} href={`#${id}`} onClick={()=>setMenu(false)}>{l}</a>)}<a className="button button-small" href={wa()} target="_blank" rel="noreferrer">AGENDAR HORÁRIO <Arrow/></a></nav>
+   </div>
+  </header>
   <main>
-   <section id="inicio" className="hero"><img className="hero-image" src="/hero-topclean.webp" alt="Carro em ambiente de estética automotiva com iluminação azul" fetchPriority="high"/><div className="hero-shade"/><div className="hero-content container"><p className="eyebrow"><span/> TopClean — Estética Automotiva</p><h1>Não é só limpeza.<br/><em>É cuidado em cada detalhe.</em></h1><p className="hero-copy">Lavagens, higienização e cuidados para carros e motos, com atenção aos detalhes e praticidade no atendimento.</p><div className="hero-actions"><a className="button" href={wa()} target="_blank" rel="noreferrer">Agendar pelo WhatsApp <Arrow/></a><a className="text-link" href="#servicos">Conhecer serviços <Arrow/></a></div><div className="hero-meta"><span>Carros & motos</span><span>Atendimento agendado</span><span>Opção em domicílio*</span></div><small>* Conforme disponibilidade.</small></div></section>
+   <section id="inicio" className="hero">
+    <img
+      className="hero-image"
+      src="/topclean-hero-bg.webp"
+      alt="Veículo esportivo preto em estúdio de estética automotiva profissional com iluminação vertical e reflexos no piso molhado"
+      fetchPriority="high"
+      decoding="sync"
+      loading="eager"
+      width="2048"
+      height="982"
+    />
+    <div className="hero-shade"/>
+    <div className="hero-content container">
+      <p className="eyebrow"><span/> TopClean — Estética Automotiva</p>
+      <h1>NÃO É SÓ LIMPEZA.<br/>É CUIDADO EM CADA <em>DETALHE.</em></h1>
+      <p className="hero-copy">Lavagens, higienização e cuidados para carros e motos, com atenção aos detalhes e praticidade no atendimento.</p>
+      <div className="hero-actions">
+        <div className="hero-btn-group">
+          <a className="button" href={wa()} target="_blank" rel="noreferrer">AGENDAR HORÁRIO <Arrow/></a>
+          <span className="hero-btn-subtext">Atendimento via WhatsApp</span>
+        </div>
+        <a className="text-link hero-secondary-link" href="#servicos">CONHECER SERVIÇOS &gt;</a>
+      </div>
+      <div className="hero-meta">
+        <span>Carros &amp; motos</span>
+        <span className="hero-meta-dot" aria-hidden="true">•</span>
+        <span>Atendimento agendado</span>
+        <span className="hero-meta-dot" aria-hidden="true">•</span>
+        <span>Opção em domicílio*</span>
+      </div>
+      <small className="hero-meta-note">* Conforme disponibilidade.</small>
+    </div>
+   </section>
    <section id="servicos" className="section services-section"><div className="container"><div className="section-heading split-heading"><div><p className="kicker">Serviços e valores</p><h2>Cuidado para cada <span>necessidade.</span></h2></div><p>Escolha uma categoria e encontre o nível de cuidado que combina com seu veículo.</p></div><div className="service-tabs" role="tablist" aria-label="Categorias de serviços">{services.map(s=><button key={s.id} role="tab" aria-selected={activeId===s.id} onClick={()=>setActive(s.id)}>{s.label}</button>)}</div><div className="service-panel" role="tabpanel"><div className={active.id==="higienizacao"?"panel-intro panel-intro-long":"panel-intro"}><p className="kicker">{active.eyebrow}</p><h3>{active.label}</h3><p>{active.description}</p>{active.note&&<small>{active.note}</small>}</div><div className={`packages packages-${Math.min(active.packages.length,3)}`}>{active.packages.map(p=><article className={p.featured?"package featured":"package"} key={p.name}>{p.featured&&<span className="package-tag">Mais escolhido</span>}<h4>{p.name}</h4><div className="prices">{p.prices.map(x=><strong key={x}>{x}</strong>)}</div><ul>{p.includes.map(x=><li key={x}><Check/>{x}</li>)}</ul><a className="package-cta" href={wa(msg(p.name))} target="_blank" rel="noreferrer">Agendar este serviço <Arrow/></a></article>)}</div></div></div></section>
    <section id="resultados" className="section result-section"><div className="container result-layout"><div className="result-copy"><p className="kicker">Resultado visível</p><h2>Veja a diferença <span>nos detalhes.</span></h2><p>Use o controle para comparar o cuidado antes e depois. Na V1, as fotografias abaixo são apenas uma demonstração visual do componente.</p><span className="illustrative">Imagem ilustrativa</span></div><div className="compare" style={{"--position":`${slider}%`} as React.CSSProperties}><img src="/after-topclean.webp" alt="Veículo depois da limpeza — imagem ilustrativa" loading="lazy"/><div className="after"><img src="/before-topclean.webp" alt="Veículo antes da limpeza — imagem ilustrativa" loading="lazy"/></div><span className="compare-label before-label">Antes</span><span className="compare-label after-label">Depois</span><div className="handle" aria-hidden="true"><span>↔</span></div><input type="range" min="5" max="95" value={slider} onChange={e=>setSlider(Number(e.target.value))} aria-label="Comparar imagem antes e depois"/></div></div></section>
    <section id="diferenciais" className="section why-section"><div className="container why-grid"><div className="why-intro"><p className="kicker">Por que escolher a TopClean?</p><h2>Cuidado de verdade. <span>Praticidade para você.</span></h2><p>Seu veículo recebe mais do que uma simples limpeza. Cada serviço é realizado com atenção aos detalhes, produtos de qualidade e cuidado com cada etapa, buscando um acabamento que você percebe no resultado.</p><p>Você pode agendar e trazer o veículo até nós ou consultar a disponibilidade de busca e atendimento em domicílio.</p><strong>Seu veículo merece cuidado. Sua rotina merece praticidade.</strong></div><div className="why-list">{[["01","Cuidado nos detalhes","Atenção ao veículo do início ao acabamento final."],["02","Produtos de qualidade","Produtos profissionais de marcas reconhecidas, como Vonixx."],["03","Mais praticidade","Hora marcada e opções que se adaptam à sua rotina."],["04","Carros e motos","Cuidados para manter seu veículo limpo e valorizado."]].map(([n,t,d])=><div className="why-item" key={n}><span>{n}</span><div><h3>{t}</h3><p>{d}</p></div></div>)}</div></div></section>
